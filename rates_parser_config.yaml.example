@@ -1,0 +1,5 @@
+rates_providers:
+  currency-api.appspot.com:
+    api_key: PUT UR KEY HERE
+  openexchangerates.org:
+    api_key: PUT UR KEY HERE

@@ -17,8 +17,9 @@ module RatesParser
       #  and the error will be associated with 'error' key
       def get_rates(currencies)
         begin
-          fetch_data(currencies)
-        rescue StandartError => e
+          data = fetch_data(currencies)
+          normalize_data(data)
+        rescue StandardError => e
           # Stub rates with undefined values
           result = stub_result(currencies)
           # Set the error
@@ -53,6 +54,16 @@ module RatesParser
       
       def stub_result(currencies)
         Hash[currencies.map { |name| [name, UNDEFINED_RATE_VALUE] }]
+      end
+
+      def normalize_data(data)
+        data.each_with_object({}) do |(k, v), h|
+          h[k] = normalize_rate(v)
+        end
+      end
+
+      def normalize_rate(rate)
+        return rate.to_s[0..5]
       end
     end
   end

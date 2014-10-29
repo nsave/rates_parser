@@ -6,14 +6,13 @@ A try to implement extensible and unified way to get currencies rates from diffe
 Example of use:
 ---------------
 
-   parser = RatesParser::Parser.new
-   currencies = %w(AUD USD NOK)
-   providers = %w(
-     openexchangerates.org
-     currency-api.appspot.com
-     ecb.europa.eu
-   )
-
+    parser = RatesParser::Parser.new
+    currencies = %w(AUD USD NOK)
+    providers = %w(
+      openexchangerates.org
+      currency-api.appspot.com
+      ecb.europa.eu
+    )
 
 Currently implemented providers:
 --------------------------------

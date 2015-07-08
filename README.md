@@ -18,7 +18,7 @@ providers = %w(
 )
 parser.fetch_rates(providers, currencies)
 
-# => 
+# =>
 #  {
 #    "openexchangerates.org" => {
 #      "AUD" => "1.4343",
@@ -31,9 +31,9 @@ parser.fetch_rates(providers, currencies)
 #      "NOK" => "n/a"
 #    },
 #    "ecb.europa.eu" => {
-#      "AUD" => "1.4370",
-#      "USD" => "1.2748",
-#      "NOK" => "8.4415"
+#      "AUD" => 1.4370,
+#      "USD" => 1.2748,
+#      "NOK" => 8.4415
 #    }
 #  }
 ```

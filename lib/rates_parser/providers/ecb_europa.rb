@@ -3,26 +3,21 @@ require 'nokogiri'
 
 module RatesParser
   module Providers
-    # 'Provider' implementation for 'ecb.europa.eu' API
-    # This implementation doesn't require any config
+    # ecb.europa.eu
     class ECBEuropa < Provider
-      # Register this provider in 'ProvidersFactory' with specified name
       register('ecb.europa.eu')
 
       def fetch_data(currencies)
-        # Request data
-        xml = Nokogiri::XML(open(data_uri))
-
-        # Parse rates
-        xml_rates = xml.search('Cube/Cube/Cube')
-        # Convert rates to hash
-        hash_rates = Hash[xml_rates.map { |node| [node['currency'], node['rate']] }]
-        # Filter out not requested rates
-        Hash[ currencies.map { |cur| [cur, hash_rates[cur] || UNDEFINED_RATE_VALUE] }]
+        xml_rates   = Nokogiri::XML(open(data_uri)).search('Cube/Cube/Cube')
+        hash_rates  = Hash[xml_rates.map { |node| [node['currency'], node['rate']] }]
+        currencies.inject({}) do |hash, currency|
+          hash[currency] = hash_rates[currency] || UNDEFINED_RATE_VALUE
+          hash
+        end
       end
 
       private
-      
+
       def data_uri
         'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
       end

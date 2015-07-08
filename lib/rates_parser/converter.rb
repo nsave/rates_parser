@@ -1,5 +1,4 @@
 module RatesParser
-  # Helper module for converting rates
   module Converter
     extend self
     # Converts rates from one source to another

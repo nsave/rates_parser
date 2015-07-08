@@ -1,13 +1,6 @@
-require 'rates_parser/config'
-
 module RatesParser
-  # Error class to raise when asked provider is not registered
   class ProviderNotRegistered < NameError; end
 
-  # A factory wich produces different subclasses of 'Provider' class
-  # For the factory be able instantiate a custom provider it must be registered
-  #  using 'register' static method,
-  #  otherwise a 'ProviderNotRegistered' wil be raised
   class ProvidersFactory
     @@registered_providers = {}
 
@@ -15,13 +8,13 @@ module RatesParser
     # @raise [ProviderNotRegistered] If specified provider is not registered
     # @return [Provider] Requested provider
     def self.create(name)
-      provider = @@registered_providers[name]
-      config = providers_config[name]
+      provider_class  = @@registered_providers[name]
+      config          = providers_config[name]
 
-      if provider
-        provider.new(config)
+      if provider_class
+        provider_class.new(config)
       else
-        fail ProviderNotRegistered, "Provider #{name} is not registered"
+        raise ProviderNotRegistered, "Provider #{name} is not registered"
       end
     end
 
@@ -40,8 +33,5 @@ module RatesParser
   end
 end
 
-# First require base provider
 require 'rates_parser/providers/provider'
-# Then require all implementations
-# (Require without extension)
-Dir[File.join(__dir__, 'providers', '*.rb')].each { |file| require file[0..-4] }
+Dir[File.join(__dir__, 'providers', '*.rb')].each { |path| require path }
